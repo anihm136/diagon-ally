@@ -20,7 +20,8 @@ func runCommand(command exec.Cmd) {
 
 func OnUpdate(c chan notify.EventInfo, conf *settings.Settings) {
 	for {
-		if ev := <-c; ev.Event() == notify.Write {
+		switch ev := <-c; ev.Event(){
+		 case notify.Write: case notify.Create:
 			go func() {
 				path := ev.Path()
 				args := utils.Replace(conf.OnUpdate, "${IN}", path)
@@ -32,6 +33,7 @@ func OnUpdate(c chan notify.EventInfo, conf *settings.Settings) {
 				cmd := exec.Command(args[0], args[1:]...)
 				runCommand(*cmd)
 			}()
+		default:
 		}
 	}
 }
