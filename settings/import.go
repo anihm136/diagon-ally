@@ -24,7 +24,15 @@ func parseConfig(configPath string) (userConf map[string]string, err error) {
 	scanner := bufio.NewScanner(configFile)
 	for scanner.Scan() {
 		parts := strings.Split(scanner.Text(), "=")
-		if utils.Contains([]string{"WatchDir", "ExportDir", "NewTemplateFile", "InsertTemplateFile"}, parts[0]) == -1 {
+		if utils.Contains(
+			[]string{
+			"WatchDir", 
+			"ExportDir", 
+			"NewTemplateFile", 
+			"InsertTemplateFile", 
+			"OnUpdate",
+			},
+			parts[0]) == -1 {
 			err = errors.New("Invalid key in config file")
 			return
 		}
@@ -65,6 +73,10 @@ func mergeUserSettings(conf *Settings, userConf map[string]string) *Settings {
 			// TODO: Handle errors
 			conf.InsertTemplate = string(readBytes)
 		}
+	}
+	if val, ok := userConf["OnUpdate"]; ok {
+		args := strings.Split(val, " ")
+		conf.OnUpdate = args
 	}
 
 	return conf

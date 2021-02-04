@@ -15,6 +15,7 @@ func newSettings() *Settings {
 	conf.WatchDir = "./svg"
 	conf.ExportDir = "./images"
 	conf.NewTemplate, conf.InsertTemplate = getDefaultTemplates()
+	conf.OnUpdate = []string{"inkscape", "--export-area-drawing", "--export-area-snap","--export-type=png", "-o", "${OUT}", "${IN}"}
 	return conf
 }
 

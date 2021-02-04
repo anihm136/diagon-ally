@@ -5,4 +5,5 @@ type Settings struct {
 	ExportDir      string
 	NewTemplate    string
 	InsertTemplate string
+	OnUpdate       []string
 }

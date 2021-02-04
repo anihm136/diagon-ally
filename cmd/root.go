@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"diagon_ally/settings"
-	"diagon_ally/watcher"
+	"diagon_ally/server"
 	"github.com/spf13/cobra"
 	"log"
 
@@ -25,8 +25,8 @@ var rootCmd = &cobra.Command{
 		defer notify.Stop(c)
 		done := make(chan struct{}, 1)
 		log.Printf("Watching %s\n", userSettings.WatchDir)
-		watcher.WatchDir(c, userSettings.WatchDir)
-		watcher.OnUpdate(c, userSettings)
+		server.WatchDir(c, userSettings.WatchDir)
+		server.OnUpdate(c, userSettings)
 		<-done
 	},
 }
