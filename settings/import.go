@@ -4,9 +4,9 @@ import (
 	"bufio"
 	"diagon_ally/utils"
 	"errors"
+	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -26,17 +26,15 @@ func parseConfig(configPath string) (userConf map[string]string, err error) {
 		parts := strings.Split(scanner.Text(), "=")
 		if utils.Contains(
 			[]string{
-			"WatchDir", 
-			"ExportDir", 
-			"NewTemplateFile", 
-			"InsertTemplateFile", 
-			"OnUpdate",
+				"WatchDir",
+				"ExportDir",
+				"OnUpdate",
 			},
 			parts[0]) == -1 {
 			err = errors.New("Invalid key in config file")
 			return
 		}
-		userConf[parts[0]], err = filepath.Abs(parts[1])
+		userConf[parts[0]] = parts[1]
 		if err != nil {
 			return
 		}
@@ -51,28 +49,6 @@ func mergeUserSettings(conf *Settings, userConf map[string]string) *Settings {
 	}
 	if val, ok := userConf["ExportDir"]; ok {
 		conf.ExportDir = val
-	}
-	if val, ok := userConf["NewTemplateFile"]; ok {
-		f, err := os.Open(val)
-		if err != nil {
-			log.Printf("NewTemplateFile (%s) does not exist, using default\n", val)
-		} else {
-			readBytes := make([]byte, MAX_TEMPLATE_SIZE)
-			_, err = f.Read(readBytes)
-			// TODO: Handle errors
-			conf.NewTemplate = string(readBytes)
-		}
-	}
-	if val, ok := userConf["InsertTemplateFile"]; ok {
-		f, err := os.Open(val)
-		if err != nil {
-			log.Printf("InsertTemplateFile (%s) does not exist, using default\n", val)
-		} else {
-			readBytes := make([]byte, MAX_INSERT_SIZE)
-			_, err = f.Read(readBytes)
-			// TODO: Handle errors
-			conf.InsertTemplate = string(readBytes)
-		}
 	}
 	if val, ok := userConf["OnUpdate"]; ok {
 		args := strings.Split(val, " ")
@@ -92,4 +68,16 @@ func GetSettings() (conf *Settings, err error) {
 	conf = mergeUserSettings(conf, userConf)
 	err = setupPaths(conf, false)
 	return
+}
+
+func (settings *Settings) UpdateFlags(source string, dest string, onUpdate string) {
+	if source != "" {
+		settings.WatchDir = source
+	}
+	if dest != "" {
+		settings.ExportDir = dest
+	}
+	if onUpdate != "" {
+		settings.OnUpdate = strings.Split(onUpdate, " ")
+	}
 }

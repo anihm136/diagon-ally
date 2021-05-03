@@ -17,3 +17,5 @@ temp
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# Local test directory
+local_test/
