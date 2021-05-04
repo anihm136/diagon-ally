@@ -34,6 +34,8 @@ func OnUpdate(c chan notify.EventInfo, conf *settings.Settings) {
 				extension := filepath.Ext(filename)
 				filenameWithoutExtension := strings.TrimSuffix(filename, extension)
 				outPath := filepath.Join(conf.ExportDir, filenameWithoutExtension)
+				// TODO: allow other formats
+				outPath = outPath + ".png"
 				args = utils.Replace(args, "${OUT}", outPath)
 				cmd := exec.Command(args[0], args[1:]...)
 				runCommand(*cmd)
