@@ -58,7 +58,7 @@ func mergeUserSettings(conf *Settings, userConf map[string]string) *Settings {
 	return conf
 }
 
-func GetSettings() (conf *Settings, err error) {
+func GetSettings(force_create bool) (conf *Settings, err error) {
 	conf = newSettings()
 	configPath := getConfigPath()
 	userConf, err := parseConfig(configPath)
@@ -66,7 +66,7 @@ func GetSettings() (conf *Settings, err error) {
 		return
 	}
 	conf = mergeUserSettings(conf, userConf)
-	err = setupPaths(conf, false)
+	err = setupPaths(conf, force_create)
 	return
 }
 

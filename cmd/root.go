@@ -46,11 +46,12 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&source, "source_dir", "s", "", "Directory to watch for changes")
 	rootCmd.PersistentFlags().StringVarP(&dest, "dest_dir", "d", "", "Directory to export to")
 	rootCmd.PersistentFlags().StringVarP(&onUpdate, "on_update", "u", "", "Command to run for export on update")
+	rootCmd.PersistentFlags().BoolVarP(&forceCreateSettings, "force", "f", false, "Force creation of settings if it does not exist")
 }
 
 func initConfig() {
 	var err error
-	userSettings, err = settings.GetSettings()
+	userSettings, err = settings.GetSettings(forceCreateSettings)
 	if err != nil {
 		log.Fatalln(err)
 	}
