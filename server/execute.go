@@ -3,16 +3,17 @@ package server
 import (
 	"diagon_ally/settings"
 	"diagon_ally/utils"
-	"github.com/rjeczalik/notify"
 	"log"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/rjeczalik/notify"
 )
 
 func runCommand(command exec.Cmd) {
 	err := command.Run()
-	log.Println("Executing command", command)
+	// log.Println("Executing command", command)
 	if err != nil {
 		log.Printf("Command %s exited with error: %v\n", command.Args[0], err)
 	}
@@ -20,8 +21,12 @@ func runCommand(command exec.Cmd) {
 
 func OnUpdate(c chan notify.EventInfo, conf *settings.Settings) {
 	for {
-		switch ev := <-c; ev.Event(){
-		 case notify.Write: case notify.Create:
+		// ev := <-c
+		// log.Println(ev.Event())
+		switch ev := <-c; ev.Event() {
+		case notify.Write:
+			fallthrough
+		case notify.Create:
 			go func() {
 				path := ev.Path()
 				args := utils.Replace(conf.OnUpdate, "${IN}", path)

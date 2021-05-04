@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"diagon_ally/utils"
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"strings"

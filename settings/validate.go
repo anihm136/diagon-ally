@@ -33,7 +33,7 @@ func setupPaths(conf *Settings, force bool) error {
 				}
 			}
 			if shouldCreate {
-				err = os.Mkdir(v, 0755)
+				err = os.Mkdir(v, 0o755)
 				if err != nil {
 					break
 				}

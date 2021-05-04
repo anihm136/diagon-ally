@@ -3,7 +3,6 @@ package cmd
 import (
 	"diagon_ally/server"
 	"diagon_ally/settings"
-	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -13,17 +12,17 @@ import (
 
 var userSettings *settings.Settings
 var (
-	onUpdate string
-	source   string
-	dest     string
+	onUpdate            string
+	source              string
+	dest                string
+	forceCreateSettings bool
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "diagon",
 	Short: "Diagon-ally is a tool to help create and insert diagrams in notes",
-	Long: `Diagon-ally watches a directory of template images 
-	        (svg only for now, will extend to latex), and exports them to 
-          destination images (png by default) whenever the template is edited.`,
+	Long: `Diagon-ally watches a directory of template images, and exports them to 
+          destination images whenever a new template is created or an existing template is edited.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		c := make(chan notify.EventInfo, 1)
 		defer notify.Stop(c)
