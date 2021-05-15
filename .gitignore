@@ -19,3 +19,7 @@ temp
 
 # Local test directory
 local_test/
+
+# Releases
+release.sh
+releases/

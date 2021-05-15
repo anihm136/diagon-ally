@@ -3,10 +3,18 @@
 
 `diagon-ally` is a CLI tool to perform transformative actions when files in a directory are changed i.e, generate/export files when a file is created/modified in a directory. In short, it is a CLI wrapper around a file watcher, with some added conveniences. It is simple to use, with minimal configuration and functionality - it is designed to do one thing (fairly) well. It was originally designed for [org-diagrams](https://github.com/anihm136/org-diagrams), but can be used as a generic file-watcher independently as well.
 
-## Build instructions
+## Installation
+### From release
+Download the latest release from the releases page, make it executable and place it on your path. For example, on Linux -
+``` sh
+curl -o diagon https://github.com/anihm136/diagon_ally/releases/download/<version>/diagon_<os>_<arch> # Replace <version>, <os> and <arch> appropriately
+chmod u+x diagon
+```
+
+### From source
 Build the binary with
 ```sh
-go build . -o diagon
+go build -o diagon
 ```
 Place the binary on your path. That's it
 
